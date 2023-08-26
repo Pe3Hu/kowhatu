@@ -2,8 +2,8 @@ extends MarginContainer
 
 
 @onready var bg = $BG
-@onready var restrictions = $Restrictions
-@onready var label = $Label
+@onready var restrictions = $VBox/Restrictions
+@onready var figure = $VBox/Figure
 
 var shop = null
 var active = false
@@ -18,9 +18,10 @@ func _ready() -> void:
 
 func set_attributes(input_: Dictionary) -> void:
 	shop = input_.shop
+	figure.text = input_.figure
 	
 	for text in input_.restrictions:
-		var restriction = label.duplicate()
+		var restriction = figure.duplicate()
 		restrictions.add_child(restriction)
 		restriction.text = text
 		restriction.visible = true

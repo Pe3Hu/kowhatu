@@ -25,6 +25,7 @@ func _ready() -> void:
 func init_arr() -> void:
 	arr.edge = [1, 2, 3, 4, 5, 6]
 	arr.duress = [2, 3]
+	arr.restriction = ["non-zone","on border","non-border","on gate","on crossroad","non-gate"]
 
 
 func init_num() -> void:
@@ -90,6 +91,41 @@ func init_dict() -> void:
 			Vector2( 0,-1)
 		]
 	]
+	
+	init_figures()
+
+
+func init_figures() -> void:
+	var indexs = {}
+	indexs["dog"] = [0]
+	indexs["cat"] = [1]
+	indexs["boar"] = [0,0]
+	indexs["horse"] = [0,1]
+	indexs["elephant"] = [1,1]
+	dict.figure = {}
+	
+	for figure in indexs:
+		dict.figure[figure] = []
+		
+		for _i in dict.neighbor.linear2.size():
+			var grid = Vector2()
+			
+			for index in indexs[figure]:
+				var _j = (index + _i * 2) % dict.neighbor.hybrid2.size()
+				grid += dict.neighbor.hybrid2[_j]
+			
+			dict.figure[figure].append(grid)
+	
+	indexs["horse"] = [0,7]
+	
+	for _i in dict.neighbor.linear2.size():
+		var grid = Vector2()
+		
+		for index in indexs["horse"]:
+			var _j = (index + _i * 2) % dict.neighbor.hybrid2.size()
+			grid += dict.neighbor.hybrid2[_j]
+		
+		dict.figure["horse"].append(grid)
 
 
 func init_node() -> void:
@@ -103,6 +139,7 @@ func init_scene() -> void:
 	scene.zone = load("res://scene/1/zone.tscn")
 	scene.shop = load("res://scene/2/shop.tscn")
 	scene.mould = load("res://scene/2/mould.tscn")
+	#
 	pass
 
 
@@ -113,6 +150,7 @@ func init_vec():
 	vec.size.letter = Vector2(23, 23)
 	vec.size.letter2 = Vector2(31, 31)
 	vec.size.letter3 = Vector2(46, 46)
+	vec.size.digital2 = Vector2(35, 35)
 	
 	vec.size.mould = Vector2(50, 50)
 	

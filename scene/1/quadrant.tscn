@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://75y1gobgfxd2"]
+[gd_scene load_steps=5 format=3 uid="uid://75y1gobgfxd2"]
 
-[ext_resource type="FontFile" uid="uid://8erc6oqf1hw7" path="res://asset/font/neuropolitical rg.otf" id="1_auquh"]
 [ext_resource type="Script" path="res://scene/1/quadrant.gd" id="1_raxxo"]
+[ext_resource type="FontFile" path="res://asset/font/Chunk Five Print.otf" id="2_o60fr"]
+[ext_resource type="FontFile" uid="uid://ccfeehj6d4naj" path="res://asset/font/digital/Cilok There.otf" id="3_42mib"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7paps"]
 
@@ -31,7 +32,7 @@ visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_auquh")
+theme_override_fonts/font = ExtResource("2_o60fr")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -40,7 +41,8 @@ visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_auquh")
+theme_override_fonts/font = ExtResource("3_42mib")
+theme_override_font_sizes/font_size = 16
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1

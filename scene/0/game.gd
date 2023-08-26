@@ -18,6 +18,12 @@ func _input(event) -> void:
 			KEY_D:
 				if event.is_pressed() && !event.is_echo():
 					Global.node.scenery.shop.shift_current_mould(1)
+			KEY_Q:
+				if event.is_pressed() && !event.is_echo():
+					Global.node.scenery.field.shift_current_anchor(-1)
+			KEY_E:
+				if event.is_pressed() && !event.is_echo():
+					Global.node.scenery.field.shift_current_anchor(1)
 
 
 func _process(delta_) -> void:

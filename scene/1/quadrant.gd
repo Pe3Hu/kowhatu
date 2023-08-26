@@ -11,6 +11,8 @@ var zone = null
 var grid = Vector2()
 var border = false
 var fit = false
+var anchor = false
+var reflection = false
 var zones = []
 var neighbors = {}
 
@@ -27,22 +29,34 @@ func _ready() -> void:
 	var style = StyleBoxFlat.new()
 	bg.set("theme_override_styles/panel", style)
 	
-	custom_minimum_size = Vector2(Global.vec.size.letter2)
+	custom_minimum_size = Vector2(Global.vec.size.digital2)
 
 
-func reset_fit() -> void:
+func reset() -> void:
+	anchor = false
 	fit = false
+	reflection = false
+	update_color()
+
+
+func switch_anchor() -> void:
+	anchor = !anchor
 	update_color()
 
 
 func update_color() -> void:
 	var color = null
 	
-	match fit:
-		true:
-			color = Color.DEEP_PINK
-		false:
-			color = Color.REBECCA_PURPLE
+	if anchor:
+		color = Color.RED
+	elif reflection:
+		color = Color.GREEN
+	else:
+		match fit:
+			true:
+				color = Color.DEEP_PINK
+			false:
+				color = Color.REBECCA_PURPLE
 	
 	var style = bg.get("theme_override_styles/panel")
 	style.bg_color = color

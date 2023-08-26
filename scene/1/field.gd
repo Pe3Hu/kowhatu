@@ -6,11 +6,13 @@ extends MarginContainer
 
 var scenery = null
 var grids = {}
+var anchors = []
+var current = {}
 
 
 func _ready() -> void:
+	current.anchor = 0
 	set_columns()
-	
 
 
 func set_columns() -> void:
@@ -30,11 +32,6 @@ func set_columns() -> void:
 	
 	init_neighbors()
 	init_zones()
-	
-#	var quadrant = grids[Vector2(1,1)]
-#
-#	for neighbor in quadrant.neighbors:
-#		neighbor.index.visible = true
 
 
 func init_neighbors() -> void:
@@ -72,18 +69,19 @@ func init_zones() -> void:
 			zone.set_attributes(input)
 
 
-func apply_mould_restrictions(mould_: MarginContainer) -> void:
+func apply_mould_restrictions() -> void:
+	var mould = scenery.shop.moulds.get_child(scenery.shop.current.mould)
 	reset_quadrants()
 	var restrictions = ["non-zone"]
 	
-	for restriction in mould_.restrictions.get_children():
+	for restriction in mould.restrictions.get_children():
 		restrictions.append(restriction.text)
 	
-	var selected = []
-	selected.append_array(quadrants.get_children())
+	anchors = []
+	anchors.append_array(quadrants.get_children())
 	
-	for _i in range(selected.size()-1,-1,-1):
-		var quadrant = selected[_i]
+	for _i in range(anchors.size()-1,-1,-1):
+		var quadrant = anchors[_i]
 		var flag = false
 		
 		for restriction in restrictions:
@@ -92,24 +90,66 @@ func apply_mould_restrictions(mould_: MarginContainer) -> void:
 					if quadrant.zone != null:
 						flag = true
 						break
-				"border":
+				"on border":
 					if !quadrant.border:
 						flag = true
 						break
-				"gate":
+				"non-border":
+					if quadrant.border:
+						flag = true
+						break
+				"on gate":
 					if quadrant.zones.is_empty():
 						flag = true
 						break
-				
+				"on crossroad":
+					if quadrant.zones.size() < 2:
+						flag = true
+						break
+				"non-gate":
+					if !quadrant.zones.is_empty():
+						flag = true
+						break
 		
 		if flag:
-			selected.erase(quadrant)
+			anchors.erase(quadrant)
 	
-	for quadrant in selected:
+	for quadrant in anchors:
 		quadrant.fit = true
 		quadrant.update_color()
+	
+	current.anchor = current.anchor % anchors.size()
+	shift_current_anchor(0)
 
 
 func reset_quadrants() -> void:
 	for quadrant in quadrants.get_children():
-		quadrant.reset_fit()
+		quadrant.reset()
+
+
+func shift_current_anchor(shift_: int) -> void:
+	var quadrant = anchors[current.anchor]
+	
+	if shift_ != 0:
+		quadrant.switch_anchor()
+		update_reflections()
+	
+	current.anchor = (current.anchor + shift_ + anchors.size()) % anchors.size()
+	quadrant = anchors[current.anchor]
+	quadrant.switch_anchor()
+	update_reflections()
+
+
+func update_reflections() -> void:
+	var mould = scenery.shop.moulds.get_child(scenery.shop.current.mould)
+	var figure = mould.figure.text
+	var quadrant = anchors[current.anchor]
+	
+	for vec in Global.dict.figure[figure]:
+		var grid = quadrant.grid + vec
+		#print(grid)
+		
+		if grids.has(grid):
+			if grids[grid].zone == null:
+				grids[grid].reflection = quadrant.anchor
+				grids[grid].update_color()
