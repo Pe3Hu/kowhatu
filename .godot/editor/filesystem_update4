@@ -1,0 +1,16 @@
+res://scene/0/game.tscn
+res://scene/0/blank.tscn
+res://scene/1/field.tscn
+res://script/Global.gd
+res://scene/0/game.gd
+res://scene/1/field.gd
+res://scene/1/quadrant.tscn
+res://scene/1/quadrant.gd
+res://scene/1/zone.tscn
+res://scene/1/zone.gd
+res://scene/2/mould.tscn
+res://scene/2/shop.tscn
+res://scene/0/scenery.tscn
+res://scene/0/scenery.gd
+res://scene/2/shop.gd
+res://scene/2/mould.gd
